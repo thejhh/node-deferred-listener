@@ -9,15 +9,21 @@ module.exports = function(orig_mw) {
 	if(!(orig_mw && (typeof orig_mw === 'function'))) {
 		throw new TypeError("Argument orig_mw is not a function!");
 	}
+	var counter = 0;
 	return function(req, res, next) {
 		
 		var defer = Q.defer();
 		orig_mw(req, res, function(err) {
+			if(counter !== 0) {
+				console.warn("Warning! requestListener's next() called again! Ignoring it.");
+				return;
+			}
 			if(err) {
 				defer.reject(err);
 			} else {
 				defer.resolve();
 			}
+			counter += 1;
 		});
 		
 		if(next && (typeof next === 'function')) {
