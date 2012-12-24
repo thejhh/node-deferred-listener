@@ -1,7 +1,7 @@
 node-deferred-listener
 ======================
 
-Extends Node.js requestListeners with deferred promise support.
+Extends Node.js requestListeners with [q's deferred promise support](http://documentup.com/kriskowal/q/).
 
 With this library you can turn any listener function that's 
 `function(req, res[, next)` into promise capable and still keep it 
