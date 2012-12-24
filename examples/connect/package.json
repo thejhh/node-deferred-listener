@@ -1,0 +1,17 @@
+{
+  "name": "deferred-listener-connect-example",
+  "version": "0.0.1",
+  "description": "Example use of deferred-listener with Connect",
+  "main": "connect.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "",
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+	"deferred-listener": "*",
+	"connect": "*"
+  },
+  "private": true
+}
