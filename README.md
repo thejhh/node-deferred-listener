@@ -26,8 +26,8 @@ You can install it simply from NPM:
 
 	npm install deferred-listener
 
-Example usage with Connect framework
-------------------------------------
+Example how to turn existing Connect middlewares to support promises
+--------------------------------------------------------------------
 
 ```javascript
 var deferred_listener = require('deferred-listener');
@@ -52,8 +52,8 @@ var app = connect()
  .listen(3000);
 ```
 
-Example usage to build middlewares with promises
-------------------------------------------------
+Example how to build Connect middlewares with promises
+------------------------------------------------------
 
 `deferred_listener()` can be used also when building your own new 
 middleware.
