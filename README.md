@@ -52,6 +52,44 @@ var app = connect()
  .listen(3000);
 ```
 
+Example usage to build middlewares with promises
+------------------------------------------------
+
+`deferred_listener()` can be used also when building new your own 
+middleware.
+
+Let's build a simple middleware that fetches some data from the 
+filesystem and parses it to `req.file`.
+
+Look, no `next()`!
+
+```javascript
+/* Let's create our middleware */
+function fetch_file(file, key) {
+	key = key || file;
+	var readFile = Q.nfbind(FS.readFile);
+	return deferred_listener(function(req, res) {
+		return readFile(file, "utf-8").then(function(data) {
+			if(!req.file) { req.file = {}; }
+			req.file[key] = JSON.parse(data);
+		});
+	});
+}
+```
+
+...and here's how to use it:
+
+```javascript
+var app = connect()
+  .use(deferred_listener(connect.logger('dev')))
+  .use(deferred_listener(connect.static('public')))
+  .use(fetch_file("test.json", "test"))
+  .use(deferred_listener(function(req, res){
+    res.end('hello world!\n\n' + 'test.foo = ' + req.file.test.foo + "\n" );
+  }))
+ .listen(3000);
+```
+
 Reference
 ---------
 
@@ -71,3 +109,4 @@ callback but instead of calling the original callback directly it will
 only reject or resolve single promise and call the original `next` only 
 once. However when called without a `next` callback only a promise will 
 be returned.
+

@@ -1,3 +1,5 @@
+var connect = require('connect');
+var deferred_listener = require('deferred-listener');
 var Q = require('q');
 var FS = require('fs');
 
@@ -14,13 +16,11 @@ function fetch_file(file, key) {
 }
 
 /* Sample usage */
-var deferred_listener = require('deferred-listener');
-var connect = require('connect');
 var app = connect()
-  .use(deferred_listener(connect.logger('dev')))
-  .use(deferred_listener(connect.static('public')))
-  .use(deferred_listener(fetch_file("test.json", "test")))
-  .use(deferred_listener(function(req, res){
+  .use(connect.logger('dev'))
+  .use(connect.static('public'))
+  .use(fetch_file("test.json", "test"))
+  .use(function(req, res){
     res.end('hello world!\n\n' + 'test.foo = ' + req.file.test.foo + "\n" );
-  }))
+  })
  .listen(3000);
