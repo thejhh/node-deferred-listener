@@ -9,11 +9,12 @@ module.exports = function(orig_mw) {
 	if(!(orig_mw && (typeof orig_mw === 'function'))) {
 		throw new TypeError("Argument orig_mw is not a function!");
 	}
-	var counter = 0;
 	return function(req, res, next) {
 		
+		var counter = 0;
 		var defer = Q.defer();
-		orig_mw(req, res, function(err) {
+		
+		var ret = orig_mw(req, res, function(err) {
 			if(counter !== 0) {
 				console.warn("Warning! requestListener's next() called again! Ignoring it.");
 				return;
@@ -26,6 +27,16 @@ module.exports = function(orig_mw) {
 			counter += 1;
 		});
 		
+		// Check if the middleware returned a promise that we could use
+		if(ret && (typeof ret === 'object') && (typeof ret.then === 'function')) {
+			ret.then(function() {
+				defer.resolve();
+			}, function(err) {
+				defer.reject(err);
+			});
+		}
+		
+		// Check if we should return a promise
 		if(next && (typeof next === 'function')) {
 			defer.promise.then(function() {
 				next();

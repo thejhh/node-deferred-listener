@@ -1,6 +1,6 @@
 {
   "name": "deferred-listener",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Extend Node.js requestListeners with deferred promise support",
   "main": "src/index.js",
   "directories": {
