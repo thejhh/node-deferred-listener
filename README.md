@@ -55,7 +55,7 @@ var app = connect()
 Example usage to build middlewares with promises
 ------------------------------------------------
 
-`deferred_listener()` can be used also when building new your own 
+`deferred_listener()` can be used also when building your own new 
 middleware.
 
 Let's build a simple middleware that fetches some data from the 
@@ -80,12 +80,12 @@ function fetch_file(file, key) {
 
 ```javascript
 var app = connect()
-  .use(deferred_listener(connect.logger('dev')))
-  .use(deferred_listener(connect.static('public')))
+  .use(connect.logger('dev'))
+  .use(connect.static('public'))
   .use(fetch_file("test.json", "test"))
-  .use(deferred_listener(function(req, res){
+  .use(function(req, res){
     res.end('hello world!\n\n' + 'test.foo = ' + req.file.test.foo + "\n" );
-  }))
+  })
  .listen(3000);
 ```
 
