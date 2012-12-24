@@ -64,7 +64,6 @@ filesystem and parses it to `req.file`.
 Look, no `next()`!
 
 ```javascript
-/* Let's create our middleware */
 function fetch_file(file, key) {
 	key = key || file;
 	var readFile = Q.nfbind(FS.readFile);
